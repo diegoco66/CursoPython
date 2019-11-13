@@ -89,30 +89,19 @@ def run():
         display_board(hidden_word, tries)
         current_letter = str(raw_input('Escoge una letra: '))
 
-        letter_indexes = []
-        for idx in range(len(word)):
-            if word[idx] == current_letter:
-                letter_indexes.append(idx)
+        letter_indexes = getLetterIndexes(word, current_letter)
 
         if len(letter_indexes) == 0:
             tries += 1
 
-            if tries == 7:
-                display_board(hidden_word, tries)
-                print('')
-                print('¡Perdiste! La palabra correcta era {}'.format(word))
+            if youLose(hidden_word, tries, word):
                 break
-        else:
-            for idx in letter_indexes:
-                hidden_word[idx] = current_letter
 
+        else:
+            showValidLetters(current_letter, letter_indexes, hidden_word)
             letter_indexes = []
 
-        try:
-            hidden_word.index('-')
-        except ValueError:
-            print('')
-            print('Felicidades! Ganaste. La palabra es: {}'.format(word))
+        if youWin(hidden_word, word):
             break
 
 def random_word():
@@ -124,6 +113,36 @@ def display_board(hidden_word, tries):
     print('')
     print(hidden_word)
     print('--- * --- * --- * --- * --- * --- ')
+
+def getLetterIndexes(word, current_letter):
+    letter_indexes = []
+    for idx in range(len(word)):
+        if word[idx] == current_letter:
+            letter_indexes.append(idx)
+
+    return letter_indexes
+
+def youLose(hidden_word, tries, word):
+    if tries == 7:
+        display_board(hidden_word, tries)
+        print('')
+        print('¡Perdiste! La palabra correcta era {}'.format(word))
+        return True
+    else:
+        return False
+
+def showValidLetters(current_letter, letter_indexes, hidden_word):
+    for idx in letter_indexes:
+        hidden_word[idx] = current_letter
+
+def youWin(hidden_word, word):
+    try:
+        hidden_word.index('-')
+        return False
+    except ValueError:
+        print('')
+        print('Felicidades! Ganaste. La palabra es: {}'.format(word))
+        return True
 
 if __name__ == '__main__':
     print('B I E N V E N I D O S  A  A H O R C A D O S')
