@@ -32,25 +32,3 @@ class Lamp:
             print(self._LAMPS[0])
         else:
             print(self._LAMPS[1])
-
-def run():
-    lamp = Lamp(False)
-
-    while True:
-        command = str(input('''
-        ¿Qué deseas hacer?
-        
-        [p]render
-        [a]pagar
-        [s]alir
-        '''))
-
-        if command == 'p':
-            lamp.turn_on()
-        elif command == 'a':
-            lamp.turn_off()
-        else:
-            break
-
-if __name__ == '__main__':
-    run()
